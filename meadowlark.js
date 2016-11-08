@@ -1,7 +1,12 @@
+// Import express
 var express = require('express');
 
 var app = express();
 
+// Import module
+var fortune = require('./lib/fortune.js');
+
+// Import handlebars
 var handlebars = require('express-handlebars')
 				.create({ defaultLayout: 'main' });
 	app.engine('handlebars', handlebars.engine);
@@ -28,21 +33,10 @@ app.get('/about', function (req, res) {
 });
 */
 
-// Demonstration of dynamic content
+// Demonstration of dynamic content && node module
 app.get('/about', function(req, res) {
-	var randomFortune = 
-		fortunes[Math.floor(Math.random() * fortunes.length)];
-	res.render('about', {fortune: randomFortune});
+	res.render('about', {fortune: fortune.getFortune()});
 });
-
-// Dynamic test features
-var fortunes = [
-	"Победи свои страхи, или они победят тебя.",
-	"Рекам нужны истоки.",
-	"Не бойся неведомого.",
-	"Тебя ждет приятный сюрприз.",
-	"Будь проще везде, где только можно.",
-];
 
 // app.get('/about/contact', function (req, res) {
 // 	res.type('text/plain');
