@@ -2,9 +2,9 @@
   "name": "tomorrowland",
   "version": "1.0.0",
   "description": "Tomorrowland Travel",
-  "main": "tomorrowland.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Leshchenko Serhiy",
   "license": "ISC",
