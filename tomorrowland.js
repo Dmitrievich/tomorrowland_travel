@@ -1,22 +1,32 @@
 // Import express
 var express = require('express');
 
-var app = express();
-
 // Import module
 var fortune = require('./lib/fortune.js');
 
+var app = express();
+
 // Import handlebars
-var handlebars = require('express-handlebars')
-				.create({ defaultLayout: 'main' });
-	app.engine('handlebars', handlebars.engine);
-	app.set('view engine', 'handlebars');
+var handlebars = require('express-handlebars').create({ 
+	defaultLayout: 'main' 
+});
+app.engine('handlebars', handlebars.engine);
+
+app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
 // Static content
 app.use(express.static(__dirname + '/public'));
 
+// set 'showTests' context property if the querystring contains test=1
+app.use(function(req, res, next) {
+	res.locals.showTests = app.get('env') !== 'production' &&
+		req.query.test === '1';
+		next();
+});
+
+// Routes
 // Home page
 app.get('/', function (req, res) {
 	// res.type('text/plain');
@@ -33,9 +43,12 @@ app.get('/about', function (req, res) {
 });
 */
 
-// Demonstration of dynamic content && node module
+// Demonstration of dynamic content and node module
 app.get('/about', function(req, res) {
-	res.render('about', {fortune: fortune.getFortune()});
+	res.render('about', {
+		fortune: fortune.getFortune(),
+		pageTestScript: '/qa/test-about.js'
+	});
 });
 
 // app.get('/about/contact', function (req, res) {
@@ -67,6 +80,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(app.get('port'), function() {
-	console.log('Express runing on http://localhost:' 
-		+ app.get('port') + '; press Ctrl+C for quit...')
+	console.log('Express is running on "http://localhost:' 
+		+ app.get('port') + '"; \nPress "Ctrl+C" for stop the server...')
 });

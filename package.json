@@ -1,15 +1,19 @@
 {
-  "name": "meadowlark",
+  "name": "tomorrowland",
   "version": "1.0.0",
-  "description": "Meadowlark Travel",
-  "main": "meadowlark.js",
+  "description": "Tomorrowland Travel",
+  "main": "tomorrowland.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Leshchenko Serhiy",
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
   }
 }
