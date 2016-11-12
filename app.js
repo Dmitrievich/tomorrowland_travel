@@ -1,22 +1,26 @@
-// Import express
 var express = require('express');
-
-// Import module
 var fortune = require('./lib/fortune.js');
 
 var app = express();
 
-// Import handlebars
-var handlebars = require('express-handlebars').create({ 
-	defaultLayout: 'main' 
+// set up handlebars view engin
+var handlebars = require('express3-handlebars').create({
+    defaultLayout:'main',
+    helpers: {
+        section: function(name, options){
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
 });
-app.engine('handlebars', handlebars.engine);
 
+app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
-// Static content
+// static content
 app.use(express.static(__dirname + '/public'));
 
 // set 'showTests' context property if the querystring contains test=1
@@ -26,24 +30,17 @@ app.use(function(req, res, next) {
 		next();
 });
 
-// Routes
-// Home page
+// routes
 app.get('/', function (req, res) {
-	// res.type('text/plain');
-	// res.send('Meadowlark Travel');
 	res.render('home');
 });
 
-// About page
 /*
 app.get('/about', function (req, res) {
-	// res.type('text/plain');
-	// res.send('About Meadowlark Travel');
 	res.render('about');
 });
 */
 
-// Demonstration of dynamic content and node module
 app.get('/about', function(req, res) {
 	res.render('about', {
 		fortune: fortune.getFortune(),
@@ -51,35 +48,30 @@ app.get('/about', function(req, res) {
 	});
 });
 
-// app.get('/about/contact', function (req, res) {
-// 	res.type('text/plain');
-// 	res.send('About Contact');
-// });
+app.get('/tours/hood-river', function(req, res){
+	res.render('tours/hood-river');
+});
+app.get('/tours/oregon-coast', function(req, res){
+	res.render('tours/oregon-coast');
+});
+app.get('/tours/request-group-rate', function(req, res){
+	res.render('tours/request-group-rate');
+});
 
-// app.get('/about/direction', function (req, res) {
-// 	res.type('text/plain');
-// 	res.send('About Direction');
-// });
-
-
-// 400 page
+// 404 catch-all handler (middleware)
 app.use(function(req, res) {
-	// res.type('text/plain');
 	res.status(404);
-	// res.send('404 - Page did not find.');
 	res.render('404');
 });
 
-// 500 page
-app.use(function(err, req, res, next) {
-	console.error(err, stack);
-	// res.type('text/plain');
+// 500 error handler (middleware)
+app.use(function(err, req, res, next){
+	console.error(err.stack);
 	res.status(500);
-	// res.send('500 - Server error.');
 	res.render('500');
 });
 
 app.listen(app.get('port'), function() {
-	console.log('Express is running on "http://localhost:' 
-		+ app.get('port') + '"; \nPress "Ctrl+C" for stop the server...')
+	console.log('Express started on "http://localhost:' +
+		app.get('port') + '"; \nPress Ctrl-C to terminate.');
 });

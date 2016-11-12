@@ -1,5 +1,5 @@
-suite('Test of the "about" page', function() {
-	test('страница должна содержать ссылку на страницу контактов', function() {
+suite('"About" Page Tests', function(){
+	test('page should contain link to contact page', function(){
 		assert($('a[href="/contact"]').length);
 	});
 });
