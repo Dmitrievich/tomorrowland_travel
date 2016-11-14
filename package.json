@@ -9,10 +9,16 @@
   "author": "Serhiy Dmitrievich",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
+    "connect": "^3.5.0",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.14.2",
     "express3-handlebars": "^0.5.2",
-	"chai": "^3.5.0"
+    "formidable": "^1.0.17",
+    "jquery-file-upload-middleware": "^0.1.8"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
